@@ -1,0 +1,136 @@
+plugins {
+    id 'java'
+    id 'groovy'
+    id 'maven'
+    id 'signing'
+    id 'net.researchgate.release' version '2.4.1'
+    id 'com.github.ben-manes.versions' version '0.13.0'
+}
+
+ext {
+    junitVersion = '4.12'
+    hamcrestVersion = '1.3'
+    dropwizardVersion = '1.0.5'
+    commonsIoVersion = '1.3.2'
+}
+
+group = 'co.wrisk.dropwizard'
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    options.deprecation = true
+}
+
+compileTestJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    options.deprecation = true
+}
+
+dependencies {
+    compileOnly "io.dropwizard:dropwizard-core:${dropwizardVersion}"
+    compileOnly "io.dropwizard:dropwizard-views-freemarker:${dropwizardVersion}"
+
+    testCompile "junit:junit:${junitVersion}"
+    testCompile "org.hamcrest:hamcrest-core:${hamcrestVersion}"
+    testCompile "io.dropwizard:dropwizard-testing:${dropwizardVersion}"
+    testCompile "io.dropwizard:dropwizard-views-freemarker:${dropwizardVersion}"
+    testCompile "org.apache.commons:commons-io:${commonsIoVersion}"
+    testCompile "org.spockframework:spock-core:1.1-groovy-2.4-rc-3"
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    required { !version.contains("SNAPSHOT") }
+    sign configurations.archives
+}
+
+task resolveDependencies {
+    doLast {
+        project.rootProject.allprojects.each { subProject ->
+            subProject.buildscript.configurations.each { configuration ->
+                configuration.resolve()
+            }
+            subProject.configurations.each { configuration ->
+                configuration.resolve()
+            }
+        }
+    }
+}
+
+afterReleaseBuild.dependsOn uploadArchives
+
+uploadArchives {
+
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Dropwizard Template Configuration'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'Dropwizard bundle that enables you to write your config.yaml as a template.'
+                url 'https://github.com/WriskHQ/jcredstash'
+
+                scm {
+                    connection 'scm:git:git@github.com:WriskHQ/dropwizard-template-config.git'
+                    developerConnection 'scm:git:git@github.com:WriskHQ/dropwizard-template-config.git'
+                    url 'https://github.com/WriskHQ/dropwizard-template-config'
+                }
+
+                licenses {
+                    license {
+                        name 'Apache Licence'
+                        url 'https://raw.githubusercontent.com/WriskHQ/dropwizard-template-config/master/LICENSE'
+                    }
+                }
+
+                developers {
+                    developer {
+                        name 'Thomas Krille'
+                        email 'krille@thomaskrille.de'
+                    }
+
+                    developer {
+                        name 'Alex Harin'
+                        email 'alex@wrisk.co'
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+

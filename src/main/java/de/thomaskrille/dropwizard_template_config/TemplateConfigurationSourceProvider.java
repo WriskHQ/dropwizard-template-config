@@ -1,6 +1,5 @@
 package de.thomaskrille.dropwizard_template_config;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Throwables;
 import com.google.common.io.Files;
 import freemarker.template.Configuration;
@@ -18,6 +17,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 
 public class TemplateConfigurationSourceProvider implements ConfigurationSourceProvider {
