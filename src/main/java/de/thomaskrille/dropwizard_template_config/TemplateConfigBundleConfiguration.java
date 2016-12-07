@@ -43,17 +43,6 @@ public class TemplateConfigBundleConfiguration {
      * Get the configured resource include path (Default: None)
      *
      * @return Optional&lt;String&gt;
-     * @deprecated Replaced by {@link #resourceIncludePath}.
-     */
-    @Deprecated
-    public Optional<String> includePath() {
-        return Optional.ofNullable(resourceIncludePath);
-    }
-
-    /**
-     * Get the configured resource include path (Default: None)
-     *
-     * @return Optional&lt;String&gt;
      */
     public Optional<String> resourceIncludePath() {
         return Optional.ofNullable(resourceIncludePath);
@@ -86,20 +75,6 @@ public class TemplateConfigBundleConfiguration {
         return customProviders;
     }
 
-    /**
-     * Set the path to include config snippets from.
-     * Must not be {@code null}. By default there's no value set.
-     *
-     * @param includePath path to include config snippets from
-     * @return TemplateConfigBundleConfiguration
-     * @deprecated Replaced by {@link #resourceIncludePath(String)}.
-     */
-    @Deprecated
-    public TemplateConfigBundleConfiguration includePath(String includePath) {
-        resourceIncludePath = includePath;
-        fileIncludePath = null;
-        return this;
-    }
 
     /**
      * Set the resource path to include config snippets from.
