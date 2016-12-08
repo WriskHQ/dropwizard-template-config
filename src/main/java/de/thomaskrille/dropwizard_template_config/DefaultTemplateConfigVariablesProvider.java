@@ -3,11 +3,11 @@ package de.thomaskrille.dropwizard_template_config;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestCustomProvider implements TemplateConfigVariablesProvider {
+public class DefaultTemplateConfigVariablesProvider implements TemplateConfigVariablesProvider {
     private final String namespace;
     private final Map<String, String> data = new HashMap<>();
 
-    public TestCustomProvider(String namespace) {
+    public DefaultTemplateConfigVariablesProvider(String namespace) {
         this.namespace = namespace;
     }
 

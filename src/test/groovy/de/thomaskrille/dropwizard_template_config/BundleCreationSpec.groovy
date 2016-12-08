@@ -31,8 +31,8 @@ class BundleCreationSpec extends Specification {
 
     def 'custom providers can be added'() {
         when:
-        def providerA = new TestCustomProvider("providerA")
-        def providerB = new TestCustomProvider("providerB")
+        def providerA = new DefaultTemplateConfigVariablesProvider("providerA")
+        def providerB = new DefaultTemplateConfigVariablesProvider("providerB")
         def bundle = new TemplateConfigBundle(
                 new TemplateConfigBundleConfiguration()
                         .addCustomProvider(providerB)

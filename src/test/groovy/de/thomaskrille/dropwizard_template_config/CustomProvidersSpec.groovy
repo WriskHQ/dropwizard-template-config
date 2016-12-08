@@ -9,8 +9,8 @@ class CustomProvidersSpec extends Specification {
 
     def TestEnvironmentProvider environmentProvider = new TestEnvironmentProvider()
     def TestSystemPropertiesProvider systemPropertiesProvider = new TestSystemPropertiesProvider()
-    def TestCustomProvider customProviderA = new TestCustomProvider("providerA")
-    def TestCustomProvider customProviderB = new TestCustomProvider("providerB")
+    def DefaultTemplateConfigVariablesProvider customProviderA = new DefaultTemplateConfigVariablesProvider("providerA")
+    def DefaultTemplateConfigVariablesProvider customProviderB = new DefaultTemplateConfigVariablesProvider("providerB")
     def TemplateConfigBundleConfiguration templateConfigBundleConfiguration = new TemplateConfigBundleConfiguration()
             .addCustomProvider(customProviderA)
             .addCustomProvider(customProviderB)
