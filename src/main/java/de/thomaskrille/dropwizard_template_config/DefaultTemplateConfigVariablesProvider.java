@@ -5,10 +5,15 @@ import java.util.Map;
 
 public class DefaultTemplateConfigVariablesProvider implements TemplateConfigVariablesProvider {
     private final String namespace;
-    private final Map<String, String> data = new HashMap<>();
+    private final Map<String, String> data;
 
     public DefaultTemplateConfigVariablesProvider(String namespace) {
+        this(namespace, new HashMap<>());
+    }
+
+    public DefaultTemplateConfigVariablesProvider(String namespace, Map<String, String> data) {
         this.namespace = namespace;
+        this.data = data;
     }
 
     public void put(String name, String value) {
